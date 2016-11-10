@@ -46,12 +46,6 @@ public class IntentHelperProvider {
         @AutoValue.Builder
         public static abstract class Builder {
 
-            /**
-             * Set android context
-             *
-             * @param android context
-             * @return builder
-             */
             @Nonnull
             public abstract Builder setContext(@Nonnull Context context);
 
