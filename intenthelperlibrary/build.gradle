@@ -1,0 +1,75 @@
+plugins {
+    id "com.github.dcendents.android-maven" version "1.5"
+}
+
+apply plugin: 'com.android.library'
+apply plugin: 'com.neenbedankt.android-apt'
+
+group = 'com.appunite.intenthelper'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
+    resourcePrefix "intent_helper_"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 1
+        versionName "0.0.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+configurations {
+    deployerJars
+}
+
+dependencies {
+    compile project(":intenthelperlibraryjava")
+
+    // Auto Value
+    provided "com.google.auto.value:auto-value:1.2"
+
+    // Dagger
+    apt 'com.google.dagger:dagger-compiler:2.7'
+
+    // Key value
+    compile 'com.github.jacek-marchwicki.key-value-db:key-value-db-level-driver:1.0.2'
+
+    // Support
+    compile 'com.android.support:appcompat-v7:25.0.0'
+
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.sourceFiles
+    source += file("$buildDir/generated/source/buildConfig/debug")
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}

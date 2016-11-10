@@ -1,0 +1,102 @@
+plugins {
+    id 'net.ltgt.apt' version '0.9'
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'com.google.protobuf'
+apply plugin: 'groovy'
+
+
+group = 'com.appunite.intenthelper'
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
+
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/main/protobuf'
+            exclude '**/google/**/*'
+        }
+    }
+}
+
+protobuf {
+    generatedFilesBaseDir = "$projectDir/src/generated"
+    protoc {
+        artifact = 'com.google.protobuf:protoc:2.6.1'
+    }
+}
+
+idea {
+    module {
+        sourceDirs += file("$projectDir/src/generated/main/java");
+    }
+}
+
+configurations {
+    deployerJars
+}
+
+dependencies {
+
+    // Rx
+    compile "io.reactivex:rxjava:1.2.0"
+    compile 'com.github.jacek-marchwicki.rx-java-extensions:rx-extensions:1.0.4'
+
+    // Dagger
+    compile 'com.google.dagger:dagger:2.7'
+    apt 'com.google.dagger:dagger-compiler:2.7'
+
+    // Okhttp
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+
+    // Auto value
+    compileOnly "com.google.auto.value:auto-value:1.2"
+    apt "com.google.auto.value:auto-value:1.2"
+
+    // Proto
+    compile 'com.google.protobuf:protobuf-java:2.6.1'
+
+    // Key value
+    compile 'com.github.jacek-marchwicki.key-value-db:key-value-db:v1.0.2'
+
+    // Misc
+    compileOnly 'javax.annotation:jsr250-api:1.0'
+    compile 'com.google.code.findbugs:jsr305:2.0.1'
+    compile 'com.github.mrmike:ok2curl:0.2.5'
+
+
+    testCompile "org.codehaus.groovy:groovy-all:2.4.1"
+    testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+    testRuntime "cglib:cglib-nodep:3.2.4"
+    testRuntime "org.objenesis:objenesis:2.1"
+    testCompile 'com.google.dagger:dagger:2.7'
+    testApt 'com.google.dagger:dagger-compiler:2.7'
+    testCompile 'junit:junit:4.11'
+    testCompile 'com.google.truth:truth:0.25'
+}
+
+task copyTestResources(type: Copy) {
+    from "${projectDir}/src/test/resources"
+    into "${buildDir}/classes/test"
+}
+processTestResources.dependsOn copyTestResources
+
+
+task sourcesJar(type: Jar, dependsOn: classes ) {
+    classifier 'sources'
+    from sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}

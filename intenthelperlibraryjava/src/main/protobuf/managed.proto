@@ -1,0 +1,20 @@
+option java_package = "com.newmedia.intenthelperlibrary.snappy.files";
+option java_outer_classname = "Message";
+option optimize_for = LITE_RUNTIME;
+
+message FileEntryMessage {
+    optional bytes fileId = 1;
+    optional string path = 2;
+    optional uint64 expirationTimeInMillis = 3;
+}
+
+message AcquireMessage {
+   optional bytes acquireId = 1;
+   optional bytes fileId = 2;
+   optional string acquireName = 3;
+}
+
+message FileUrlMappingMessage {
+    optional string url = 1;
+    optional bytes fileId = 2;
+}
