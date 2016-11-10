@@ -1,5 +1,6 @@
 package com.appunite.intenthelperlibrary
 
+import com.appunite.intenthelperlibrary.dao.ManagedFileDao
 import com.appunite.keyvalue.KeyValueMemory
 import rx.schedulers.Schedulers
 import rx.schedulers.TestScheduler
@@ -12,19 +13,19 @@ class ManagedFileDaoSpec extends Specification {
     def LONG_TIME = 1024*1024
     def SHORT_TIME = 1
     TestScheduler testScheduler
-    com.appunite.intenthelperlibrary.dao.ManagedFileDao managedFileDao
-    private com.appunite.intenthelperlibrary.dao.ManagedFileDao.FileOperations fileOperations
+    ManagedFileDao managedFileDao
+    private ManagedFileDao.FileOperations fileOperations
     private KeyValueMemory keyValueMemory
 
     void setup() {
         testScheduler = Schedulers.test();
-        fileOperations = Mock(com.appunite.intenthelperlibrary.dao.ManagedFileDao.FileOperations)
+        fileOperations = Mock(ManagedFileDao.FileOperations)
         keyValueMemory = new KeyValueMemory()
         managedFileDao = createManagedDao();
     }
 
-    private com.appunite.intenthelperlibrary.dao.ManagedFileDao createManagedDao() {
-        new com.appunite.intenthelperlibrary.dao.ManagedFileDao(testScheduler, keyValueMemory, fileOperations)
+    private ManagedFileDao createManagedDao() {
+        new ManagedFileDao(testScheduler, keyValueMemory, fileOperations)
     }
 
     def "assert no crash during default behavior"() {
@@ -45,7 +46,7 @@ class ManagedFileDaoSpec extends Specification {
         managedFileInTask.release();
 
         // bindViewHolder
-        final com.appunite.intenthelperlibrary.dao.ManagedFileDao.ManagedFile onBindFile = managedFileDao.findAndAcquireManagedFileIfExists(somewhereStoreFileId, "for glide");
+        final ManagedFileDao.ManagedFile onBindFile = managedFileDao.findAndAcquireManagedFileIfExists(somewhereStoreFileId, "for glide");
         if (onBindFile != null) {
             // onBindFile.file() for glide
             // releaseViewHolder

@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.newmedia.intenthelperlibrary.test", appContext.getPackageName());
+        assertEquals("com.appunite.intenthelperlibrary.test", appContext.getPackageName());
     }
 }
