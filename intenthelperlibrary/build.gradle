@@ -41,7 +41,9 @@ configurations {
 }
 
 dependencies {
-    compile project(":intenthelperlibraryjava")
+    compile(project(":intenthelperlibraryjava")) {
+        exclude group: 'com.google.protobuf', module: "protobuf-java"
+    }
 
     // Auto Value
     provided "com.google.auto.value:auto-value:1.2"
@@ -50,7 +52,9 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.7'
 
     // Key value
-    compile 'com.github.jacek-marchwicki.key-value-db:key-value-db-level-driver:1.0.2'
+    compile('com.github.jacek-marchwicki.key-value-db:key-value-db-level-driver:1.0.2') {
+        exclude group: 'com.google.protobuf', module: "protobuf-java"
+    }
 
     // Support
     compile 'com.android.support:appcompat-v7:25.0.0'

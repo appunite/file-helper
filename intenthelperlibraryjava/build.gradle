@@ -23,16 +23,32 @@ sourceSets {
     }
 }
 
-protobuf {
-    generatedFilesBaseDir = "$projectDir/src/generated"
-    protoc {
-        artifact = 'com.google.protobuf:protoc:2.6.1'
+idea {
+    module {
+        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/java");
+        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/javalite");
+        sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/grpc");
     }
 }
 
-idea {
-    module {
-        sourceDirs += file("$projectDir/src/generated/main/java");
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.0.0'
+    }
+    plugins {
+        javalite {
+            artifact = 'com.google.protobuf:protoc-gen-javalite:3.0.0'
+        }
+    }
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                remove java
+            }
+            task.plugins {
+                javalite {}
+            }
+        }
     }
 }
 
@@ -58,10 +74,12 @@ dependencies {
     apt "com.google.auto.value:auto-value:1.2"
 
     // Proto
-    compile 'com.google.protobuf:protobuf-java:2.6.1'
+    compile 'com.google.protobuf:protobuf-lite:3.0.0'
 
     // Key value
-    compile 'com.github.jacek-marchwicki.key-value-db:key-value-db:v1.0.2'
+    compile('com.github.jacek-marchwicki.key-value-db:key-value-db:v1.0.2') {
+        exclude group: 'com.google.protobuf', module: "protobuf-java"
+    }
 
     // Misc
     compileOnly 'javax.annotation:jsr250-api:1.0'

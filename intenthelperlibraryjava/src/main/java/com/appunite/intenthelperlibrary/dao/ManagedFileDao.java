@@ -1,7 +1,6 @@
 package com.appunite.intenthelperlibrary.dao;
 
 
-import com.appunite.intenthelperlibrary.snappy.files.Message;
 import com.appunite.keyvalue.IdGenerator;
 import com.appunite.keyvalue.KeyGenerator;
 import com.appunite.keyvalue.KeyValue;
@@ -9,6 +8,7 @@ import com.appunite.keyvalue.NotFoundException;
 import com.appunite.rx.dagger.NetworkScheduler;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.newmedia.intenthelperlibrary.snappy.files.Message;
 
 import java.io.File;
 import java.util.ArrayList;
