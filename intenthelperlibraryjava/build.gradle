@@ -77,7 +77,7 @@ dependencies {
     compile 'com.google.protobuf:protobuf-lite:3.0.0'
 
     // Key value
-    compile('com.github.jacek-marchwicki.key-value-db:key-value-db:v1.0.2') {
+    compile('com.github.jacek-marchwicki.key-value-db:key-value-db:v1.0.3') {
         exclude group: 'com.google.protobuf', module: "protobuf-java"
     }
 

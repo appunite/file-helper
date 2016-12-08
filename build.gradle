@@ -15,6 +15,13 @@ allprojects {
     repositories {
         jcenter()
         maven { url "https://jitpack.io" }
+        maven {
+            url "https://auto-close.appspot.com/maven/206"
+            credentials {
+                username 'un-important'
+                password 'sfiIsJ5J67VJG4WBLSN7MWns'
+            }
+        }
         maven { url 'https://dl.bintray.com/jacek-marchwicki/maven/' }
     }
 }

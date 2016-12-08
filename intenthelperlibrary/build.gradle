@@ -52,7 +52,7 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.7'
 
     // Key value
-    compile('com.github.jacek-marchwicki.key-value-db:key-value-db-level-driver:1.0.2') {
+    compile('com.github.jacek-marchwicki.key-value-db:key-value-db-level-driver:1.0.3') {
         exclude group: 'com.google.protobuf', module: "protobuf-java"
     }
 
